@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="zoom.css">
+    <title>Examen</title>
+</head>
+
+<body onload="carga()">
+
+    <span id = "minutos">0</span>=<span id = "segundos">0</span>
+    <canvas id="mycanvas" width="1700" height="1550">
+        Hola tu navegador no funciona
+    </canvas>
+    <script>
+
+        var cronometro;
+        var cv = null;
+        var ctx = null;
+        var press = false;
+        var superx = 250;
+        var supery = 250;
+        var player = null;
+        var player2 = null;
+        var j = 0;
+        var i = 0;
+        var multiparedes = [null]; 
+        var direccion = '';
+        var speed = 2;
+        var pausa = false;
+        var shark = new Image();
+        var pecesito = new Image();
+        var audio = new Audio();
+        var soundtrack = new Audio();
+        
+        
+        function run()
+        {
+            cv = document.getElementById('mycanvas');
+            ctx = cv.getContext('2d');
+            player = new Cuadro(20,0,20,20,"red");
+            player2 = new Cuadro(1660,1500,40,40,"blue");
+            
+            //Paredes
+             //Izquierda
+            multiparedes[0] = new Cuadro(0,0,10,1700,"yellow");
+             //Inferior
+            multiparedes[1] = new Cuadro(10,1540,1640,10,"yellow");
+             //Derecha
+            multiparedes[2] = new Cuadro(1690,10,10,1470,"yellow");
+             //Superior
+            multiparedes[3] = new Cuadro(80,0,1620,10,"yellow");
+             //En Medio 
+                //Abajo
+            multiparedes[4] = new Cuadro(10,80,160,10,"yellow");
+            multiparedes[5] = new Cuadro(80,80,10,190,"yellow");
+            multiparedes[6] = new Cuadro(90,260,80,10,"yellow");
+            multiparedes[7] = new Cuadro(130,270,10,110,"yellow");
+            multiparedes[8] = new Cuadro(80,380,60,10,"yellow");
+            multiparedes[9] = new Cuadro(80,320,10,70,"yellow");
+            multiparedes[10] = new Cuadro(230,10,10,130,"yellow");
+            multiparedes[11] = new Cuadro(160,120,70,10,"yellow");
+            multiparedes[12] = new Cuadro(160,120,10,70,"yellow");
+            multiparedes[13] = new Cuadro(170,180,130,10,"yellow");
+            multiparedes[14] = new Cuadro(300,10,10,40,"yellow");
+            multiparedes[15] = new Cuadro(300,110,10,170,"yellow");
+            multiparedes[16] = new Cuadro(250,280,100,10,"yellow");
+            multiparedes[17] = new Cuadro(250,280,10,310,"yellow");
+            multiparedes[18] = new Cuadro(80,440,230,10,"yellow");
+            multiparedes[19] = new Cuadro(310,440,10,80,"yellow");
+            multiparedes[20] = new Cuadro(80,580,180,10,"yellow");
+            multiparedes[21] = new Cuadro(0,510,180,10,"yellow");
+            multiparedes[22] = new Cuadro(160,590,10,140,"yellow");
+            multiparedes[23] = new Cuadro(0,650,90,10,"yellow");
+            multiparedes[24] = new Cuadro(80,720,90,10,"yellow");
+            multiparedes[25] = new Cuadro(160,650,160,10,"yellow");
+            multiparedes[26] = new Cuadro(10,800,500,10,"yellow");
+            multiparedes[27] = new Cuadro(250,720,10,90,"yellow");
+            multiparedes[28] = new Cuadro(320,650,10,90,"yellow");
+            multiparedes[29] = new Cuadro(350,800,10,90,"yellow");
+            multiparedes[30] = new Cuadro(500,720,10,250,"yellow");
+            multiparedes[31] = new Cuadro(500,970,140,10,"yellow");
+            multiparedes[32] = new Cuadro(630,970,10,200,"yellow");
+            multiparedes[33] = new Cuadro(360,1050,280,10,"yellow");
+            multiparedes[34] = new Cuadro(350,970,10,90,"yellow");
+            multiparedes[35] = new Cuadro(280,970,150,10,"yellow");
+            multiparedes[36] = new Cuadro(420,900,10,80,"yellow");
+            multiparedes[37] = new Cuadro(420,900,10,80,"yellow");
+            multiparedes[38] = new Cuadro(280,900,10,80,"yellow");
+            multiparedes[39] = new Cuadro(10,900,90,10,"yellow");
+            multiparedes[40] = new Cuadro(110,855,85,10,"yellow");
+            multiparedes[41] = new Cuadro(190,855,10,220,"yellow");
+            multiparedes[42] = new Cuadro(190,855,10,300,"yellow");
+            multiparedes[43] = new Cuadro(140,1070,110,10,"yellow");
+            multiparedes[44] = new Cuadro(10,1220,110,10,"yellow");
+            multiparedes[45] = new Cuadro(10,1220,110,10,"yellow");
+            multiparedes[46] = new Cuadro(110,1220,10,110,"yellow");
+            multiparedes[47] = new Cuadro(110,1320,110,10,"yellow");
+            multiparedes[48] = new Cuadro(210,1320,10,110,"yellow");
+            multiparedes[49] = new Cuadro(100,1420,220,10,"yellow");
+            multiparedes[50] = new Cuadro(250,1070,10,170,"yellow");
+            multiparedes[51] = new Cuadro(250,1150,230,10,"yellow");
+            multiparedes[52] = new Cuadro(250,1240,100,10,"yellow");
+            multiparedes[53] = new Cuadro(340,1240,10,100,"yellow");
+            multiparedes[54] = new Cuadro(480,1150,10,110,"yellow");
+            multiparedes[55] = new Cuadro(480,1250,200,10,"yellow");
+            multiparedes[56] = new Cuadro(620,1250,10,110,"yellow");
+            multiparedes[57] = new Cuadro(680,1200,10,340,"yellow");
+            multiparedes[58] = new Cuadro(450,1400,10,140,"yellow");
+                //Arriba
+            multiparedes[59] = new Cuadro(300,100,330,10,"yellow");
+            multiparedes[60] = new Cuadro(630,100,10,110,"yellow");
+            multiparedes[61] = new Cuadro(630,210,170,10,"yellow");
+            multiparedes[62] = new Cuadro(500,110,10,90,"yellow");
+            multiparedes[63] = new Cuadro(720,120,10,90,"yellow");
+            multiparedes[64] = new Cuadro(840,80,170,10,"yellow");
+            multiparedes[65] = new Cuadro(1000,10,10,80,"yellow");
+            multiparedes[66] = new Cuadro(930,90,10,200,"yellow");
+            multiparedes[67] = new Cuadro(420,280,620,10,"yellow");
+            multiparedes[68] = new Cuadro(450,210,10,70,"yellow");
+            multiparedes[69] = new Cuadro(570,210,10,70,"yellow");
+            multiparedes[70] = new Cuadro(570,290,10,70,"yellow");
+            multiparedes[71] = new Cuadro(450,290,10,70,"yellow");
+            multiparedes[72] = new Cuadro(1040,190,110,10,"yellow");
+            multiparedes[73] = new Cuadro(1150,90,10,110,"yellow");
+            multiparedes[74] = new Cuadro(1150,90,140,10,"yellow");
+            multiparedes[75] = new Cuadro(1290,90,10,110,"yellow");
+            multiparedes[76] = new Cuadro(1300,190,110,10,"yellow");
+            multiparedes[77] = new Cuadro(1400,190,10,110,"yellow");
+            multiparedes[78] = new Cuadro(1300,290,110,10,"yellow");
+            multiparedes[79] = new Cuadro(1300,290,10,110,"yellow");
+            multiparedes[80] = new Cuadro(1200,400,110,10,"yellow");
+            multiparedes[81] = new Cuadro(1200,410,10,90,"yellow");
+            multiparedes[82] = new Cuadro(1000,500,210,10,"yellow");
+            multiparedes[83] = new Cuadro(1000,410,10,90,"yellow");
+            multiparedes[84] = new Cuadro(390,410,690,10,"yellow");
+            multiparedes[85] = new Cuadro(730,350,10,60,"yellow");
+            multiparedes[86] = new Cuadro(680,350,60,10,"yellow");
+            multiparedes[87] = new Cuadro(510,350,10,130,"yellow");
+            multiparedes[88] = new Cuadro(390,350,10,60,"yellow");
+            multiparedes[89] = new Cuadro(1090,200,10,150,"yellow");
+            multiparedes[90] = new Cuadro(1090,290,90,10,"yellow");
+            multiparedes[91] = new Cuadro(970,350,130,10,"yellow");
+            multiparedes[92] = new Cuadro(420,470,90,10,"yellow");
+            multiparedes[93] = new Cuadro(420,470,10,90,"yellow");
+            multiparedes[94] = new Cuadro(370,550,60,10,"yellow");
+            multiparedes[95] = new Cuadro(370,550,10,90,"yellow");
+            multiparedes[96] = new Cuadro(370,630,60,10,"yellow");
+            multiparedes[97] = new Cuadro(430,630,10,60,"yellow");
+            multiparedes[98] = new Cuadro(430,680,190,10,"yellow");
+                //Abajo Derecha
+            multiparedes[99] = new Cuadro(800,1400,190,10,"yellow");
+            multiparedes[100] = new Cuadro(980,1250,10,150,"yellow");
+            multiparedes[101] = new Cuadro(980,1330,190,10,"yellow");
+            multiparedes[102] = new Cuadro(1100,1190,10,150,"yellow");
+            multiparedes[103] = new Cuadro(1170,1330,10,90,"yellow");
+            multiparedes[104] = new Cuadro(1180,1410,400,10,"yellow");
+            multiparedes[105] = new Cuadro(1580,1210,10,200,"yellow");
+            multiparedes[106] = new Cuadro(1440,1320,60,10,"yellow");
+            multiparedes[107] = new Cuadro(1490,1000,10,320,"yellow");
+            multiparedes[108] = new Cuadro(1490,1070,90,10,"yellow");
+            multiparedes[109] = new Cuadro(1400,1120,90,10,"yellow");
+            multiparedes[110] = new Cuadro(1400,890,10,230,"yellow");
+            multiparedes[111] = new Cuadro(1370,890,120,10,"yellow");
+            multiparedes[112] = new Cuadro(1490,670,10,230,"yellow");
+            multiparedes[113] = new Cuadro(1490,670,90,10,"yellow");
+            multiparedes[114] = new Cuadro(1570,570,120,10,"yellow");
+            multiparedes[115] = new Cuadro(1620,450,10,120,"yellow");
+            multiparedes[116] = new Cuadro(1490,440,140,10,"yellow");
+            multiparedes[117] = new Cuadro(1520,300,10,180,"yellow");
+            multiparedes[118] = new Cuadro(1520,300,60,10,"yellow");
+            multiparedes[119] = new Cuadro(1580,130,10,180,"yellow");
+            multiparedes[120] = new Cuadro(1510,130,120,10,"yellow");
+            multiparedes[121] = new Cuadro(1400,550,10,400,"yellow");
+            multiparedes[122] = new Cuadro(1350,550,120,10,"yellow");
+            //
+            multiparedes[123] = new Cuadro(610,560,10,120,"yellow");
+            multiparedes[124] = new Cuadro(500,560,120,10,"yellow");
+            multiparedes[125] = new Cuadro(1090,510,10,120,"yellow");
+            multiparedes[126] = new Cuadro(820,630,380,10,"yellow");
+            multiparedes[127] = new Cuadro(820,520,10,230,"yellow");
+            multiparedes[128] = new Cuadro(820,740,210,10,"yellow");
+            multiparedes[129] = new Cuadro(940,530,10,100,"yellow");
+            multiparedes[130] = new Cuadro(640,1050,180,10,"yellow");
+            multiparedes[131] = new Cuadro(820,1050,10,190,"yellow");
+            multiparedes[132] = new Cuadro(820,1240,180,10,"yellow");
+            multiparedes[133] = new Cuadro(920,1050,10,190,"yellow");
+            multiparedes[134] = new Cuadro(920,1040,180,10,"yellow");
+            multiparedes[135] = new Cuadro(1070,1180,180,10,"yellow");
+            multiparedes[136] = new Cuadro(740,880,10,180,"yellow");
+            multiparedes[137] = new Cuadro(660,880,180,10,"yellow");
+            multiparedes[138] = new Cuadro(660,830,10,60,"yellow");
+            multiparedes[139] = new Cuadro(840,830,10,60,"yellow");
+            multiparedes[140] = new Cuadro(1230,1030,170,10,"yellow");
+            multiparedes[141] = new Cuadro(1230,760,10,270,"yellow");
+            multiparedes[142] = new Cuadro(1130,760,110,10,"yellow");
+            multiparedes[143] = new Cuadro(1130,820,110,10,"yellow");
+            multiparedes[144] = new Cuadro(1130,820,10,130,"yellow");
+            multiparedes[145] = new Cuadro(1010,920,10,130,"yellow");
+            multiparedes[146] = new Cuadro(940,920,140,10,"yellow");
+            multiparedes[147] = new Cuadro(890,1310,10,90,"yellow");
+            multiparedes[148] = new Cuadro(1330,1280,10,130,"yellow");
+            multiparedes[149] = new Cuadro(1300,650,100,10,"yellow");
+            multiparedes[150] = new Cuadro(1300,400,10,250,"yellow");
+            multiparedes[151] = new Cuadro(1300,1470,10,70,"yellow");
+            multiparedes[152] = new Cuadro(1100,1470,10,70,"yellow");
+            multiparedes[153] = new Cuadro(920,1470,10,70,"yellow");
+            multiparedes[154] = new Cuadro(10,1040,60,10,"yellow");
+            multiparedes[155] = new Cuadro(620,640,90,10,"yellow");
+            multiparedes[156] = new Cuadro(730,590,90,10,"yellow");
+            multiparedes[157] = new Cuadro(1600,850,90,10,"yellow");
+            
+            
+            shark.src = 'tiburon.png';
+            pecesito.src = 'pez.png';
+            audio.src = 'victoria.mp3';
+            soundtrack.src = 'juego-de-tronos.mp3';
+
+            paint();
+            
+        }
+
+        function paint() 
+        {
+            window.requestAnimationFrame(paint);
+
+            ctx.fillStyle = "rgb(21,51,74)";
+            ctx.fillRect(0,0,1700,1560);
+
+            
+            ctx.drawImage(shark,player.x,player.y,40,40);
+            
+            ctx.drawImage(pecesito,player2.x,player2.y,30,30);
+            
+            
+            for(i = 0; i < multiparedes.length; i++)
+            {
+                multiparedes[i].pintar(ctx);
+            }
+            if(pausa)
+            {
+                ctx.fillStyle = "rgb(0,0,0,0.9)";
+                ctx.fillRect(0,0,1700,1690);
+
+                ctx.fillStyle = "white";
+                ctx.font = "100px Georgia";
+                ctx.fillText("PAUSADO",530,530);
+                ctx.font = "50px Georgia";
+                ctx.fillText("Volver a Dar espacio para continuar",530,580);
+                soundtrack.pause();
+            }
+            else
+            {
+                update();
+                soundtrack.play();
+            }
+            
+        }
+
+        function update()
+        {
+            //arriba
+            if(direccion =='up')
+            {
+                player.y -= speed;
+                
+                if(player.y <= 0)
+                {
+                    player.y += speed;
+                }
+                for(j = 0; j < multiparedes.length; j++)
+                {
+                    if(player.se_tocan(multiparedes[j]))
+                    {   
+                        player.y += speed;
+                    }
+                }
+            }
+            //abajo
+            if(direccion == 'down') 
+            {
+                player.y += speed;
+                for(j = 0; j < multiparedes.length; j++)
+                {
+                    if(player.se_tocan(multiparedes[j]))
+                    {   
+                        player.y -= speed;
+                    }
+                }
+            }
+            //izquierda
+            if (direccion == 'left') 
+            {   
+                player.x -= speed;
+                for(j = 0; j < multiparedes.length; j++)
+                {
+                    if(player.se_tocan(multiparedes[j]))
+                    {   
+                        player.x += speed;
+                    }
+                }
+            }
+            //derecha
+            if (direccion == 'right') 
+            {
+                player.x += speed;
+                for(j = 0; j < multiparedes.length; j++)
+                {
+                    if(player.se_tocan(multiparedes[j]))
+                    {   
+                        player.x -= speed;
+                    }
+                }
+            }
+            
+            if(player.se_tocan(player2))
+            {
+                ctx.fillStyle = "rgb(0,0,0,0.9)";
+                ctx.fillRect(0,0,1700,1690);
+
+                ctx.fillStyle = "white";
+                ctx.font = "100px Georgia";
+                ctx.fillText("GANASTE",530,530);
+                speed = 0;
+                soundtrack.pause();
+                soundtrack.currentTime = 0;
+                audio.play();
+                detenerse();
+            }            
+        }
+
+        function Cuadro(x,y,w,h,c)
+        {
+            this.x = x;
+            this.y = y;
+            this.w = w;
+            this.h = h;
+            this.c = c;
+
+            this.se_tocan = function (target) 
+            { 
+                if(this.x < target.x + target.w &&
+                this.x + this.w > target.x && 
+                this.y < target.y + target.h && 
+                this.y + this.h > target.y)
+                {
+                    return true;
+                }
+            };
+
+            this.pintar = function(ctx)
+            {
+                ctx.fillStyle = this.c;
+                ctx.fillRect(this.x,this.y,this.w,this.h);
+                ctx.strokeRect(this.x,this.y,this.w,this.h);
+            }
+        }
+
+        window.requestAnimationFrame = (function () 
+        {
+            return window.requestAnimationFrame ||
+                window.webkitRequestAnimationFrame ||
+                window.mozRequestAnimationFrame ||
+                function (callback) {
+                    window.setTimeout(callback, 17);
+                };
+        }());
+
+        document,addEventListener('keydown', function(e)
+        {
+            //arriba
+            if (e.keyCode == 87 || e.keyCode == 38) 
+            {
+                direccion = 'up';
+            }
+            //abajo
+            if (e.keyCode == 83 || e.keyCode == 40) 
+            {
+                direccion = 'down';
+            }
+            //izquierda
+            if (e.keyCode == 65 || e.keyCode == 37) 
+            {
+                direccion = 'left';
+            }
+            //derecha
+            if (e.keyCode == 68 || e.keyCode == 39) 
+            {
+                direccion = 'right';
+            }
+
+            if (e.keyCode == 32) 
+            {
+                pausa = (pausa)?false:true;
+            } 
+        });
+
+
+        function detenerse()
+        {
+            clearInterval(cronometro);
+        }
+
+        function carga()
+        {
+            contador_s = 0;
+            contador_m = 0;
+            s = document.getElementById("segundos");
+            m = document.getElementById("minutos");
+    
+            cronometro = setInterval(
+                function()
+                {
+                    if(contador_s == 60)
+                    {
+                        contador_s = 0;
+                        contador_m++;
+                        m.innerHTML = contador_m;
+                        if(contador_m == 0)
+                        {
+                            contador_s = 0;
+                        }
+                    }
+                    s.innerHTML = contador_s;
+                    contador_s++;
+                }
+                ,1000);
+            }
+        
+        window.addEventListener('load',run,false); 
+        /*
+        function getRandomInt(max) 
+        {
+            return Math.floor(Math.random() * max);
+        }
+        */
+    </script>
+</body>
+</html>

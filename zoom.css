@@ -1,0 +1,17 @@
+html 
+{
+    zoom: 125%;
+    overflow: hidden
+}
+body
+{
+    text-align: center;
+}
+
+span
+{
+    font: 40px Verdana, sans-serif;
+    font-size-adjust: 0.58;
+    text-align: left;
+}
+ 
